@@ -35,7 +35,7 @@ MODEL_ORDER = {
     "SVM": 4,
     "Decision Tree": 3,
     "Random Forest": 2,
-    "Gradient Boosting": 1,
+    # "Gradient Boosting": 1,
 }
 
 @app.get("/", response_class=HTMLResponse)
@@ -132,13 +132,13 @@ async def train_model(
                 "max_depth": [None, 10, 20]
             }
         },
-        "Gradient Boosting": {
-            "model": GradientBoostingClassifier(),
-            "params": {
-                "n_estimators": [100, 200],
-                "learning_rate": [0.01, 0.1, 0.2]
-            }
-        }
+        # "Gradient Boosting": {
+        #     "model": GradientBoostingClassifier(),
+        #     "params": {
+        #         "n_estimators": [100, 200],
+        #         "learning_rate": [0.01, 0.1, 0.2]
+        #     }
+        # }
     }
 
     results = []
@@ -250,3 +250,11 @@ async def make_prediction(
         )
     except Exception as e:
         return templates.TemplateResponse("error.html", {"request": request, "error": f"Prediction error: {str(e)}"})
+    
+@app.get("/about", response_class=HTMLResponse)
+async def about_page(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
